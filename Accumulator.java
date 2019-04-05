@@ -16,57 +16,61 @@ public class Accumulator {
       ) {
         String result = "";
 
-        for( int el = 0; el < list.size(); el++)
-            result += // dummy for incremental development
-                      list.get( el) + " ";
+        for( int el = 0; el < list.size(); el++){
+
 
             /* 3.  Stumbling block 0
                Java protects a programmer against applying a method to
                elements in list when some elements of the list might
                omit support for a particular operation.
 
-               This protection is implemented by the ___________ (compiler? JVM?)
+               This protection is implemented by the compiler (compiler? JVM?)
                The following code violates the restriction:
+			   
               */
             // [code that violates the restriction]
-
+            //result += // dummy for incremental development
+                      //list.get( el) + " ";
             /*
-             predicted error message:
+             predicted error message: Error: incompatible types
 
-             actual error message:
+             actual error message: cannot find symbol
              */
 
 
             /* 4.  Workaround 0
                A programmer should expect there to be a way to
                work around the stumbling block, because
-               the ___________ (compiler? JVM?)
+               the JVM (compiler? JVM?)
                knows the type of an element.
 
-               Java's ___________ operator identifies the type
-               of an element to the ___________ (compiler? JVM?).
+               Java's instanceof operator identifies the type
+               of an element to the JVM (compiler? JVM?).
              */
 
 
             /* 5.  Stumbling block 1
                However, use of the operator alone is insufficient,
-               because the ___________ (compiler? JVM?)
+               because the compliler (compiler? JVM?)
                objects to the following code that adds use of
                the operator to the code from Stumbling block 0:
              */
 
             // [code that illustrates the use of the operator]
-
+            //if ( list.get(el).startsWith(prefix)
+                //&& list.get(el) instanceof String)
+                //result += list.get(el);
+                        
             /*
-             predicted error message:
+             predicted error message: cannot find sybmol
 
-             actual error message:
+             actual error message: cannot find symbol
              */
 
 
             /* 6. Workaround 1
-               Programmers use Java's _____________ operator
-               to tell the ___________ (compiler? JVM?)
+               Programmers use Java's cast operator
+               to tell the compiler (compiler? JVM?)
                that code uses a subclass's method on an object,
                even though the reference to the object is stored
                in a super-class variable.
@@ -75,17 +79,19 @@ public class Accumulator {
 
             /* 7. Stumbling block 2
                However, use of this operator alone is insufficient,
-               because the ___________ (compiler? JVM?)
+               because the compiler (compiler? JVM?)
                objects to the following code that adds use of
                the operator to the code from Stumbling block 0:
              */
 
             // [code that illustrates the use of the operator]
-
+            // String stringElement = (String)list.get(el);
+            // if ( stringElement.startsWith(prefix))
+                 // result += stringElement;
             /*
-             predicted error message:
+             predicted error message: incompatible types
 
-             actual error message:
+             actual error message: variable declaration not allowed here
              */
 
 
@@ -96,8 +102,15 @@ public class Accumulator {
              */
 
             // [working code here, finally]
-
+            if (list.get(el) instanceof String){
+                String stringElement = (String)list.get(el);
+                if (stringElement.startsWith(prefix))
+                    result += stringElement + " ";
+            }
+			
+		}
         return result;
+		    
     }
 
 
@@ -105,8 +118,16 @@ public class Accumulator {
       @return a list of each of the Double elements
       from the \list whose value is "finite".
      */
-    // public static List_inArraySlots finites(
-        // List_inArraySlots list
-      // ) {
-    // }
+    public static List_inArraySlots finites(
+        List_inArraySlots list
+      ) { List_inArraySlots result = new List_inArraySlots();
+		  for ( int el = 0; el < list.size(); el++){
+			  if (list.get(el) instanceof Double){
+                  Double doubleElement = (Double)list.get(el);
+			      if (!Double.isInfinite(doubleElement))
+				  result.add (list.get(el));
+		  }
+		 }
+		  return result;
+    }
 }
